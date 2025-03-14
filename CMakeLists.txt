@@ -37,4 +37,5 @@ if (WIN32)
             wingetopt
     )
     target_link_libraries(DirSize PRIVATE wingetopt)
+    target_include_directories(DirSize PRIVATE ${wingetopt_SOURCE_DIR}/src/)
 endif ()
