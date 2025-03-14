@@ -103,6 +103,9 @@ int main(const int argc, char **argv) {
     // TODO: Optional human readable
     // TODO: Handle block and char devices
 
+    int errorcode = 0;
+
+    // TODO: Switch to getopt_long
     while ((opt = getopt(argc, argv, "hfvV")) != -1) {
         switch (opt) {
             case 'h':
@@ -132,8 +135,10 @@ int main(const int argc, char **argv) {
         return 0;
     }
 
-    for (int i = optind; i < argc; i++) {
-        folderSize(argv[i], verbose, follow_symlink, prog);
+    {
+        for (int i = optind; i < argc; i++) {
+            folderSize(argv[i], verbose, follow_symlink, prog);
+        }
     }
-    return 0;
+    return errorcode;
 }
