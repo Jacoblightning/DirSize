@@ -18,10 +18,10 @@ struct HumanReadable
     template<typename Os> friend Os& operator<<(Os& os, HumanReadable hr)
     {
         int i{};
-        double mantissa = hr.size;
-        for (; mantissa >= 1024.0; mantissa /= 1024.0, ++i)
+        double mantissa = hr.size; // NOLINT(*-narrowing-conversions)
+        for (; mantissa >= 1024.0; mantissa /= 1024.0, ++i) // NOLINT(*-flp30-c)
         {}
-        os << std::ceil(mantissa * 10.0) / 10.0 << i["BKMGTPE"];
+        os << std::ceil(mantissa * 10.0) / 10.0 << "BKMGTPE"[i];
         return i ? os << "B (" << hr.size << ')' : os;
     }
 };
