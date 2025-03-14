@@ -28,7 +28,8 @@ struct HumanReadable
 
 void printVersion(const char *progname) {
     std::cout << progname << " " << version << std::endl;
-    std::cout << "Copyright (C) 2025 Jacob Freeman" << std::endl;
+    std::cout << "Copyright (C) 2025 Jacob Freeman\n\n";
+    std::cout << "This program is freely obtainable at https://github.com/Jacoblightning/DirSize.\nIf you paid for this program. You have been scammed.\n\n";
     std::cout <<
     "License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\n"
     "This is free software: you are free to change and redistribute it.\n"
