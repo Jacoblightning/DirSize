@@ -71,16 +71,20 @@ void folderSize(const char* folder, const bool verbose, const bool follow_symlin
             )
     )
     {
-        if (iter.is_symlink() && ! follow_symlinks) {
-            if (verbose)
-                std::cout << "Not following symlink: " << iter.path() << std::endl;
-        } else if (iter.is_directory()) {
-            if (verbose)
-                std::cout << "Traversing into directory: " << iter.path() << std::endl;
-        } else {
-            size += iter.file_size();
-            if (verbose)
-                std::cout << "Found file: " << iter.path() << ". Size: " << HumanReadable{iter.file_size()} << std::endl;
+        try {
+            if (iter.is_symlink() && ! follow_symlinks) {
+                if (verbose)
+                    std::cout << "Not following symlink: " << iter.path() << std::endl;
+            } else if (iter.is_directory()) {
+                if (verbose)
+                    std::cout << "Traversing into directory: " << iter.path() << std::endl;
+            } else {
+                size += iter.file_size();
+                if (verbose)
+                    std::cout << "Found file: " << iter.path() << ". Size: " << HumanReadable{iter.file_size()} << std::endl;
+            }
+        } catch (fs::filesystem_error& e) {
+            std::cerr << "Error on file/dir: " << iter.path() << ": " << e.what() << std::endl;
         }
     }
 
@@ -96,7 +100,8 @@ int main(const int argc, char **argv) {
     bool follow_symlink = false;
     bool verbose = false;
     bool version = false;
-    //TODO: Optional human readable
+    // TODO: Optional human readable
+    // TODO: Handle block and char devices
 
     while ((opt = getopt(argc, argv, "hfvV")) != -1) {
         switch (opt) {
