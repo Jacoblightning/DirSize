@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 23)
 add_executable(DirSize main.cpp)
 
 execute_process(
-        COMMAND bash -c "echo -n v; git describe --always --dirty --tags --exact-match 2>/dev/null || (git describe --always --dirty --match='NOT A MATCH' | awk 1 ORS='';echo '-git') || echo unknown"
+        COMMAND bash -c "git describe --always --dirty --tags --exact-match 2>/dev/null || (git describe --always --dirty --match='NOT A MATCH' | awk 1 ORS='';echo '-git') || echo unknown"
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         OUTPUT_VARIABLE DSversion
         OUTPUT_STRIP_TRAILING_WHITESPACE
