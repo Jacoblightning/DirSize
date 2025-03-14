@@ -1,6 +1,6 @@
 #include <iostream>
 #include <filesystem>
-#include <unistd.h>
+#include <getopt.h>
 #include <cmath>
 
 namespace fs = std::filesystem;

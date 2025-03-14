@@ -24,3 +24,17 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     enable_testing()
     add_subdirectory(test)
 endif ()
+
+if (WIN32)
+    include(FetchContent)
+    fetchcontent_declare(
+            wingetopt
+            GIT_REPOSITORY https://github.com/alex85k/wingetopt
+            GIT_TAG master
+    )
+
+    fetchcontent_makeavailable(
+            wingetopt
+    )
+    target_link_libraries(DirSize PRIVATE wingetopt)
+endif ()
