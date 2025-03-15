@@ -3,7 +3,7 @@ set /a dirname=%RANDOM%
 mkdir %dirname%
 cd %dirname%
 
-echo "5char" > file.txt
+echo 5char > file.txt
 
 FOR /F "tokens=*" %%g IN ('%1 -m .') do (set output=%%g)
 
@@ -30,9 +30,8 @@ goto :loop
 
 :done
 
-dir
-
-if "%len%" == "6" (goto exitsuccess)
+REM Echo apparently adds a space AND a newline after the 5char which ups the total bytes to 8.
+if "%len%" == "8" (goto exitsuccess)
 
 exit /b 1
 
