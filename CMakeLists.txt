@@ -12,6 +12,8 @@ execute_process(
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
+option(DSIZE_ENABLE_TESTS "Enable Building Tests" OFF)
+
 message(NOTICE "Building version ${DSversion}. Reconfigure project to change.")
 
 target_compile_definitions(DirSize
@@ -19,12 +21,11 @@ target_compile_definitions(DirSize
 )
 
 
-if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-    message("Enabling tests")
-    enable_testing()
+if(DSIZE_ENABLE_TESTS AND CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     add_subdirectory(test)
 endif ()
 
+# Windows getopt support
 if (WIN32)
     include(FetchContent)
     fetchcontent_declare(
