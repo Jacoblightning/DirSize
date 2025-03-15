@@ -9,8 +9,26 @@ FOR /F "tokens=*" %%g IN ('%1 -m .') do (set output=%%g)
 
 echo "Got output: %output%"
 
-FOR /F "tokens=2 delims=:" %%i in ('%output%') do set len=%%i
+REM Copy to temporary variable for processing.
+set "str=%output%"
 
+:loop
+REM Check if the string contains a colon.
+echo %str% | findstr ":" >nul
+if errorlevel 1 (
+REM No colon found, so this is the last token.
+set "len=%str%"
+goto :done
+)
+
+REM Otherwise, split the string at the first colon.
+for /f "tokens=1* delims=:" %%A in ("%str%") do (
+REM %%A is the first token and %%B is the rest of the string.
+set "str=%%B"
+)
+goto :loop
+
+:done
 if "%len%" == "6" (goto exitsuccess)
 
 exit /b 1
