@@ -1,5 +1,4 @@
 message("Enabling tests")
-enable_testing()
 
 add_test(
         NAME checkSuccessfulCompile

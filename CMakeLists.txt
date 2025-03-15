@@ -22,6 +22,7 @@ target_compile_definitions(DirSize
 
 
 if(DSIZE_ENABLE_TESTS AND CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    enable_testing()
     add_subdirectory(test)
 endif ()
 
