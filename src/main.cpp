@@ -43,15 +43,16 @@ void printHelp(const char *progname) {
     "  -h\tprint this help\n"
     "  -f\tfollow directory symlinks\n"
     "  -v\tbe more verbose\n"
+    "  -m\toutput machine readable format\n"
+    ""
+    ""
+    ""
     "  -V\toutput version information and exit\n\n"
-    ""
-    ""
-    ""
-    ""
+    "NOTES: Verbose output is output to stderr.\n\n"
     << std::endl;
 }
 
-void folderSize(const char* folder, const bool verbose, const bool follow_symlinks, const char *progname) {
+void folderSize(const char* folder, const bool verbose, const bool follow_symlinks, const char *progname, const bool nohuman) {
     if (!std::filesystem::exists(folder)) {
         std::cerr << progname << ": cannot access '" << folder << "': No such file or directory" << std::endl;
         return;
@@ -75,21 +76,24 @@ void folderSize(const char* folder, const bool verbose, const bool follow_symlin
         try {
             if (iter.is_symlink() && ! follow_symlinks) {
                 if (verbose)
-                    std::cout << "Not following symlink: " << iter.path() << std::endl;
+                    std::cerr << "Not following symlink: " << iter.path() << std::endl;
             } else if (iter.is_directory()) {
                 if (verbose)
-                    std::cout << "Traversing into directory: " << iter.path() << std::endl;
+                    std::cerr << "Traversing into directory: " << iter.path() << std::endl;
             } else {
                 size += iter.file_size();
                 if (verbose)
-                    std::cout << "Found file: " << iter.path() << ". Size: " << HumanReadable{iter.file_size()} << std::endl;
+                    std::cerr << "Found file: " << iter.path() << ". Size: " << HumanReadable{iter.file_size()} << std::endl;
             }
         } catch (fs::filesystem_error& e) {
             std::cerr << "Error on file/dir: " << iter.path() << ": " << e.what() << std::endl;
         }
     }
 
-    std::cout << folder << ": " << HumanReadable{size} << std::endl;
+    if (nohuman)
+        std::cout << folder << ":" << size << std::endl;
+    else
+        std::cout << folder << ": " << HumanReadable{size} << std::endl;
 }
 
 int main(const int argc, char **argv) {
@@ -101,13 +105,13 @@ int main(const int argc, char **argv) {
     bool follow_symlink = false;
     bool verbose = false;
     bool version = false;
-    // TODO: Optional human readable
+    bool nohuman = false;
     // TODO: Handle block and char devices
 
     int errorcode = 0;
 
     // TODO: Switch to getopt_long
-    while ((opt = getopt(argc, argv, "hfvV")) != -1) {
+    while ((opt = getopt(argc, argv, "hfvmV")) != -1) {
         switch (opt) {
             case 'h':
                 help = true;
@@ -120,6 +124,9 @@ int main(const int argc, char **argv) {
                 break;
             case 'V':
                 version = true;
+                break;
+            case 'm':
+                nohuman = true;
                 break;
             default:
                 break;
@@ -138,7 +145,7 @@ int main(const int argc, char **argv) {
 
     {
         for (int i = optind; i < argc; i++) {
-            folderSize(argv[i], verbose, follow_symlink, prog);
+            folderSize(argv[i], verbose, follow_symlink, prog, nohuman);
         }
     }
     return errorcode;
