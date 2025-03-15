@@ -40,15 +40,15 @@ void printHelp(const char *progname) {
     std::cout <<
     "Usage: " << progname <<  " [OPTION]... [DIRECTORY]...\n"
     "Get the size of a directory recursively.\n\n"
-    "  -h\tprint this help\n"
-    "  -f\tfollow directory symlinks\n"
-    "  -v\tbe more verbose\n"
-    "  -m\toutput machine readable format\n"
+    "  -h, --help            \tprint this help\n"
+    "  -v, --verbose         \tbe more verbose\n"
+    "  -f, --follow-symlinks \tfollow directory symlinks\n"
+    "  -m, --machine-readable\toutput machine readable format\n"
     ""
     ""
     ""
-    "  -V\toutput version information and exit\n\n"
-    "NOTES: Verbose output is output to stderr.\n\n"
+    "  -V, --version         \toutput version information and exit\n\n"
+    "NOTES: Verbose output is sent to stderr.\n\n"
     << std::endl;
 }
 
@@ -106,12 +106,20 @@ int main(const int argc, char **argv) {
     bool verbose = false;
     bool version = false;
     bool nohuman = false;
+
+    const option long_options[] = {
+        {"help",             no_argument, nullptr, 'h'},
+        {"machine-readable", no_argument, nullptr, 'm'},
+        {"verbose",          no_argument, nullptr, 'v'},
+        {"version",          no_argument, nullptr, 'V'},
+        {"follow-symlinks",  no_argument, nullptr, 'f'},
+        {nullptr,            0,           nullptr, 0}
+    };
     // TODO: Handle block and char devices
 
     int errorcode = 0;
 
-    // TODO: Switch to getopt_long
-    while ((opt = getopt(argc, argv, "hfvmV")) != -1) {
+    while ((opt = getopt_long(argc, argv, "hfvmV", long_options, nullptr)) != -1) {
         switch (opt) {
             case 'h':
                 help = true;
