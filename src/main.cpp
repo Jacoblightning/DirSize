@@ -8,6 +8,7 @@ namespace fs = std::filesystem;
 #ifdef DSIZE_VERSION
 const char* version = DSIZE_VERSION;
 #else
+//TODO: Somehow make this be the latest tagged version thingy
 const char* version = "unknown";
 #endif
 
