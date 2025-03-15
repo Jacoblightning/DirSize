@@ -3,7 +3,7 @@ set /a dirname=%RANDOM%
 mkdir %dirname%
 cd %dirname%
 
-echo 5char > file.txt
+echo "5char" > file.txt
 
 FOR /F "tokens=*" %%g IN ('%1 -m .') do (set output=%%g)
 
@@ -29,6 +29,9 @@ set "str=%%B"
 goto :loop
 
 :done
+
+dir
+
 if "%len%" == "6" (goto exitsuccess)
 
 exit /b 1
