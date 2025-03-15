@@ -30,7 +30,7 @@ goto :loop
 
 :done
 
-REM Echo apparently adds a space AND a newline after the 5char which ups the total bytes to 8.
+REM Echo apparently adds a space AND a crlf after the 5char which ups the total bytes to 8.
 if "%len%" == "8" (goto exitsuccess)
 
 exit /b 1
