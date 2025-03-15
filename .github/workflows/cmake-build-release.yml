@@ -37,6 +37,9 @@ jobs:
             c_compiler: clang
             cpp_compiler: clang++
           - os: macos-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+          - os: macos-latest
             c_compiler: gcc-14
             cpp_compiler: g++-14
           - os: macos-latest
